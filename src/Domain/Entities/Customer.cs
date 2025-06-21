@@ -11,8 +11,9 @@ public class Customer : BaseEntity
     public string Address { get; set; } = string.Empty;
     public string? TaxId { get; set; }
     public string? CompanyName { get; set; }
+    public string Identification { get; set; } = string.Empty;
     
     // Navigation properties
-    public ICollection<Vehicle> Vehicles { get; private set; } = new Collection<Vehicle>();
+    public ICollection<Vehicle> Vehicles { get; private set; } = new List<Vehicle>();
     public ICollection<ServiceOrder> ServiceOrders { get; private set; } = new Collection<ServiceOrder>();
 } 
