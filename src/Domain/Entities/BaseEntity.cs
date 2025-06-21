@@ -1,4 +1,4 @@
-namespace AutoTallerManager.Domain.Entities;
+namespace Domain.Entities;
 
 public abstract class BaseEntity
 {
