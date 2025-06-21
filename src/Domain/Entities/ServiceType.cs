@@ -1,5 +1,3 @@
-using AutoTallerManager.Domain.Entities;
-
 namespace Domain.Entities;
 
 public class ServiceType : BaseEntity
