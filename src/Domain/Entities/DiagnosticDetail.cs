@@ -1,4 +1,4 @@
-lnamespace Domain.Entities;
+namespace Domain.Entities;
 
 public class DiagnosticDetail
 {
