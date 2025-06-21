@@ -1,12 +1,13 @@
+using AutoTallerManager.Domain.Entities;
 
 namespace Domain.Entities;
 
 public class ServiceOrder : BaseEntity
 {
-    public Guid VehicleId { get; set; }
-    public Guid MechanicId { get; set; }
-    public Guid ServiceTypeId { get; set; }
-    public Guid StatusId { get; set; }
+    public int VehicleId { get; set; }
+    public int MechanicId { get; set; }
+    public int ServiceTypeId { get; set; }
+    public int StatusId { get; set; }
     public DateTime EntryDate { get; set; }
     public DateTime? ExitDate { get; set; }
     public string? CustomerMessage { get; set; }

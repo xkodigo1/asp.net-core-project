@@ -1,8 +1,10 @@
+using AutoTallerManager.Domain.Entities;
+
 namespace Domain.Entities;
 
 public class Vehicle : BaseEntity
 {
-    public Guid CustomerId { get; set; }
+    public int CustomerId { get; set; }
     public string Brand { get; set; } = string.Empty;
     public string Model { get; set; } = string.Empty;
     public int Year { get; set; }

@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
+using AutoTallerManager.Domain.Entities;
 
-namespace AutoTallerManager.Domain.Entities;
+namespace Domain.Entities;
 
 public class Customer : BaseEntity
 {
@@ -15,5 +16,5 @@ public class Customer : BaseEntity
     
     // Navigation properties
     public ICollection<Vehicle> Vehicles { get; private set; } = new List<Vehicle>();
-    public ICollection<ServiceOrder> ServiceOrders { get; private set; } = new Collection<ServiceOrder>();
+    public ICollection<ServiceOrder> ServiceOrders { get; private set; } = new List<ServiceOrder>();
 } 
