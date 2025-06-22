@@ -2,9 +2,9 @@ namespace Domain.Entities;
 
 public class InventoryDetail : BaseEntity
 {
-    public Guid ServiceOrderId { get; set; }
-    public Guid InventoryId { get; set; }
-    public Guid SpareId { get; set; }
+    public int ServiceOrderId { get; set; }
+    public int InventoryId { get; set; }
+    public int SpareId { get; set; }
     public int Quantity { get; set; }
     public decimal UnitCost { get; set; }
     public decimal Total { get; set; }

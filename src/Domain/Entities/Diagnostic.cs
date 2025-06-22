@@ -2,7 +2,7 @@ namespace Domain.Entities;
 
 public class Diagnostic : BaseEntity
 {
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
     public string Description { get; set; } = string.Empty;
     public string? Recommendation { get; set; }
     public decimal EstimatedCost { get; set; }

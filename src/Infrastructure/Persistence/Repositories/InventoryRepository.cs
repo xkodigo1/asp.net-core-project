@@ -60,6 +60,9 @@ public class InventoryRepository : BaseRepository<Inventory>
 
             await _dbSet.AddAsync(inventory, cancellationToken);
 
+            // Necesitamos guardar los cambios para obtener el Id generado
+            await _context.SaveChangesAsync(cancellationToken);
+
             var detail = new InventoryDetail
             {
                 InventoryId = inventory.Id,
