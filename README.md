@@ -1,6 +1,6 @@
 # AutoTallerManager
 
-A RESTful API for automotive workshop management built with ASP.NET Core 8.0 following Clean Architecture principles.
+A RESTful API for automotive workshop management built with ASP.NET Core following Clean Architecture principles.
 
 ## Project Structure
 

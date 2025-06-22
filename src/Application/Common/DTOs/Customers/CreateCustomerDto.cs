@@ -1,8 +1,6 @@
-using System.Collections.ObjectModel;
+namespace Application.Common.DTOs.Customers;
 
-namespace Domain.Entities;
-
-public class Customer : BaseEntity
+public class CreateCustomerDto
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
@@ -12,8 +10,4 @@ public class Customer : BaseEntity
     public string? TaxId { get; set; }
     public string? CompanyName { get; set; }
     public string Identification { get; set; } = string.Empty;
-    
-    // Navigation properties
-    public ICollection<Vehicle> Vehicles { get; private set; } = new List<Vehicle>();
-    public ICollection<ServiceOrder> ServiceOrders { get; private set; } = new List<ServiceOrder>();
 } 
