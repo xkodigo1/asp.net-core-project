@@ -11,13 +11,16 @@ public class UnitOfWork : IUnitOfWork
     private IDbContextTransaction? _transaction;
     private bool _disposed;
 
-    private IRepository<User>? _users;
+    // Specific repositories
+    private UserRepository? _users;
+    private ServiceOrderRepository? _serviceOrders;
+    private InventoryRepository? _inventory;
+
+    // Generic repositories
     private IRepository<Role>? _roles;
     private IRepository<Specialization>? _specializations;
     private IRepository<ServiceType>? _serviceTypes;
-    private IRepository<ServiceOrder>? _serviceOrders;
     private IRepository<Spare>? _spares;
-    private IRepository<Inventory>? _inventories;
     private IRepository<Invoice>? _invoices;
     private IRepository<Status>? _statuses;
     private IRepository<Vehicle>? _vehicles;
@@ -35,13 +38,16 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public IRepository<User> Users => _users ??= new BaseRepository<User>(_context);
+    // Specific repository properties
+    public IRepository<User> Users => _users ??= new UserRepository(_context);
+    public IRepository<ServiceOrder> ServiceOrders => _serviceOrders ??= new ServiceOrderRepository(_context);
+    public IRepository<Inventory> Inventories => _inventory ??= new InventoryRepository(_context);
+
+    // Generic repository properties
     public IRepository<Role> Roles => _roles ??= new BaseRepository<Role>(_context);
     public IRepository<Specialization> Specializations => _specializations ??= new BaseRepository<Specialization>(_context);
     public IRepository<ServiceType> ServiceTypes => _serviceTypes ??= new BaseRepository<ServiceType>(_context);
-    public IRepository<ServiceOrder> ServiceOrders => _serviceOrders ??= new BaseRepository<ServiceOrder>(_context);
     public IRepository<Spare> Spares => _spares ??= new BaseRepository<Spare>(_context);
-    public IRepository<Inventory> Inventories => _inventories ??= new BaseRepository<Inventory>(_context);
     public IRepository<Invoice> Invoices => _invoices ??= new BaseRepository<Invoice>(_context);
     public IRepository<Status> Statuses => _statuses ??= new BaseRepository<Status>(_context);
     public IRepository<Vehicle> Vehicles => _vehicles ??= new BaseRepository<Vehicle>(_context);
@@ -53,6 +59,11 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<UserRole> UserRoles => _userRoles ??= new BaseRepository<UserRole>(_context);
     public IRepository<UserSpecialization> UserSpecializations => _userSpecializations ??= new BaseRepository<UserSpecialization>(_context);
     public IRepository<Audit> Audits => _audits ??= new BaseRepository<Audit>(_context);
+
+    // Helper methods to access specific repository functionality
+    public UserRepository UsersExtended => (UserRepository)Users;
+    public ServiceOrderRepository ServiceOrdersExtended => (ServiceOrderRepository)ServiceOrders;
+    public InventoryRepository InventoriesExtended => (InventoryRepository)Inventories;
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
