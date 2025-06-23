@@ -23,12 +23,27 @@ public class VehicleConfiguration : IEntityTypeConfiguration<Vehicle>
         builder.Property(v => v.Year)
             .IsRequired();
 
-        builder.Property(v => v.VinNumber)
+        builder.Property(v => v.LicensePlate)
+            .HasMaxLength(20)
+            .IsRequired();
+
+        builder.Property(v => v.VIN)
             .HasMaxLength(17)
+            .IsRequired();
+
+        builder.Property(v => v.Color)
+            .HasMaxLength(30)
+            .IsRequired();
+
+        builder.Property(v => v.EngineNumber)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(v => v.Mileage)
             .IsRequired();
+
+        builder.Property(v => v.Notes)
+            .HasMaxLength(500);
 
         // Relaciones
         builder.HasOne(v => v.Customer)

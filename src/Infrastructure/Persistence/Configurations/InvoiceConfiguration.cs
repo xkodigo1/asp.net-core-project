@@ -12,21 +12,30 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 
         builder.HasKey(i => i.Id);
 
-        builder.Property(i => i.InvoiceNumber)
+        builder.Property(i => i.Number)
             .HasMaxLength(20)
             .IsRequired();
 
-        builder.Property(i => i.IssueDate)
-            .IsRequired();
-
-        builder.Property(i => i.DueDate)
+        builder.Property(i => i.Date)
             .IsRequired();
 
         builder.Property(i => i.Subtotal)
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(i => i.Tax)
+        builder.Property(i => i.TaxRate)
+            .HasPrecision(5, 2)
+            .IsRequired();
+
+        builder.Property(i => i.TaxAmount)
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(i => i.DiscountRate)
+            .HasPrecision(5, 2)
+            .IsRequired();
+
+        builder.Property(i => i.DiscountAmount)
             .HasPrecision(18, 2)
             .IsRequired();
 
@@ -34,13 +43,21 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
             .HasPrecision(18, 2)
             .IsRequired();
 
+        builder.Property(i => i.PaymentMethod)
+            .HasMaxLength(50)
+            .IsRequired();
+
+        builder.Property(i => i.PaymentStatus)
+            .HasMaxLength(50)
+            .IsRequired();
+
         builder.Property(i => i.Notes)
             .HasMaxLength(500);
 
         // Relaciones
-        builder.HasOne<ServiceOrder>()
+        builder.HasOne(i => i.ServiceOrder)
             .WithOne(so => so.Invoice)
-            .HasForeignKey<Invoice>("ServiceOrderId")
+            .HasForeignKey<Invoice>(i => i.ServiceOrderId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(i => !i.IsDeleted);
