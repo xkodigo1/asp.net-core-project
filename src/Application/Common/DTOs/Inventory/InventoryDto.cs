@@ -1,4 +1,4 @@
-using Application.Common.DTOs.ServiceOrders;
+using Application.Common.DTOs.Spares;
 
 namespace Application.Common.DTOs.Inventory;
 

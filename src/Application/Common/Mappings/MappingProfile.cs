@@ -4,6 +4,7 @@ using Application.Common.DTOs.Invoices;
 using Application.Common.DTOs.ServiceOrders;
 using Application.Common.DTOs.Spares;
 using Application.Common.DTOs.Users;
+using Application.Common.DTOs.Vehicles;
 using AutoMapper;
 using Domain.Entities;
 
@@ -21,9 +22,9 @@ public class MappingProfile : Profile
         CreateMap<Specialization, SpecializationDto>();
 
         // Customer mappings
-        CreateMap<Customer, CustomerDto>()
+        CreateMap<Customer, DTOs.Customers.CustomerDto>()
             .ForMember(d => d.Vehicles, o => o.MapFrom(s => s.Vehicles));
-        CreateMap<Vehicle, VehicleDto>()
+        CreateMap<Vehicle, DTOs.Vehicles.VehicleDto>()
             .ForMember(d => d.Owner, o => o.MapFrom(s => s.Customer));
 
         // Service Order mappings
@@ -45,7 +46,7 @@ public class MappingProfile : Profile
         CreateMap<Inventory, InventoryDto>()
             .ForMember(d => d.Details, o => o.MapFrom(s => s.InventoryDetails));
         CreateMap<InventoryDetail, InventoryDetailDto>();
-        CreateMap<Spare, SpareDto>();
+        CreateMap<Spare, DTOs.Spares.SpareDto>();
 
         // Invoice mappings
         CreateMap<Invoice, InvoiceDto>()

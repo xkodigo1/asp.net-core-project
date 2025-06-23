@@ -8,8 +8,8 @@ public class SpareDto
     public string Brand { get; set; } = string.Empty;
     public string Model { get; set; } = string.Empty;
     public string? SerialNumber { get; set; }
-    public decimal UnitPrice { get; set; }
-    public int StockQuantity { get; set; }
+    public decimal Price { get; set; }
+    public int Stock { get; set; }
     public int MinimumStock { get; set; }
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; } = string.Empty;

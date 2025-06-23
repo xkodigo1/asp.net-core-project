@@ -1,9 +1,10 @@
+using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
 
-public class InventoryRepository : BaseRepository<Inventory>
+public class InventoryRepository : BaseRepository<Inventory>, IInventoryRepository
 {
     public InventoryRepository(ApplicationDbContext context) : base(context)
     {
