@@ -126,13 +126,4 @@ public class DiagnosticDetailDto
     public string CreatedBy { get; set; } = string.Empty;
 }
 
-public class OrderDetailDto
-{
-    public int Id { get; set; }
-    public SpareDto Spare { get; set; } = null!;
-    public int Quantity { get; set; }
-    public decimal UnitPrice { get; set; }
-    public decimal? Discount { get; set; }
-    public decimal Subtotal { get; set; }
-}
 
