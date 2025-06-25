@@ -1,17 +1,45 @@
 namespace Application.Common.DTOs.ServiceOrders;
 
+/// <summary>
+/// DTO para actualizar órdenes de servicio existentes.
+/// Permite modificar el estado, fechas y detalles de una orden en curso.
+/// </summary>
 public class UpdateServiceOrderDto
 {
+    /// <summary>
+    /// ID de la orden de servicio a actualizar
+    /// </summary>
     public int Id { get; set; }
-    public int VehicleId { get; set; }
-    public int MechanicId { get; set; }
-    public int ServiceTypeId { get; set; }
+
+    /// <summary>
+    /// Nuevo ID del mecánico asignado (opcional)
+    /// </summary>
+    public int? MechanicId { get; set; }
+
+    /// <summary>
+    /// Nuevo estado de la orden
+    /// </summary>
     public int StatusId { get; set; }
-    public DateTime EntryDate { get; set; }
+
+    /// <summary>
+    /// Nueva fecha de salida del vehículo (opcional)
+    /// </summary>
     public DateTime? ExitDate { get; set; }
+
+    /// <summary>
+    /// Nuevos comentarios o actualización del mensaje del cliente
+    /// </summary>
     public string? CustomerMessage { get; set; }
-    public List<UpdateDiagnosticDetailDto> DiagnosticDetails { get; set; } = new();
-    public List<UpdateOrderDetailDto> OrderDetails { get; set; } = new();
+
+    /// <summary>
+    /// Lista actualizada de diagnósticos realizados
+    /// </summary>
+    public List<CreateDiagnosticDetailDto> DiagnosticDetails { get; set; } = new();
+
+    /// <summary>
+    /// Lista actualizada de repuestos utilizados
+    /// </summary>
+    public List<CreateOrderDetailDto> OrderDetails { get; set; } = new();
 }
 
 public class UpdateDiagnosticDetailDto
