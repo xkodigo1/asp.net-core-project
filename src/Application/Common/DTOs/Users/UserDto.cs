@@ -88,16 +88,50 @@ public class UserDto
     public string? UpdatedBy { get; set; }
 }
 
+/// <summary>
+/// DTO que representa un rol en el sistema.
+/// Define los diferentes niveles de acceso y responsabilidades de los usuarios.
+/// </summary>
 public class RoleDto
 {
+    /// <summary>
+    /// Identificador único del rol
+    /// </summary>
     public int Id { get; set; }
+
+    /// <summary>
+    /// Nombre del rol
+    /// (ej: Administrador, Mecánico, Recepcionista)
+    /// </summary>
     public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Descripción detallada de las responsabilidades
+    /// y permisos asociados al rol
+    /// </summary>
     public string? Description { get; set; }
 }
 
+/// <summary>
+/// DTO que representa una especialización técnica en el taller.
+/// Define las diferentes áreas de experiencia y capacitación de los mecánicos.
+/// </summary>
 public class SpecializationDto
 {
+    /// <summary>
+    /// Identificador único de la especialización
+    /// </summary>
     public int Id { get; set; }
+
+    /// <summary>
+    /// Nombre de la especialización
+    /// (ej: Mecánica General, Electricidad, Sistemas de Inyección)
+    /// </summary>
     public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Descripción detallada del área de especialización
+    /// y las habilidades requeridas
+    /// </summary>
     public string? Description { get; set; }
 } 
