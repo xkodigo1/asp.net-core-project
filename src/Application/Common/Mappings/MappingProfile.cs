@@ -25,7 +25,7 @@ public class MappingProfile : Profile
         CreateMap<Customer, DTOs.Customers.CustomerDto>()
             .ForMember(d => d.Vehicles, o => o.MapFrom(s => s.Vehicles));
         CreateMap<Vehicle, DTOs.Vehicles.VehicleDto>()
-            .ForMember(d => d.Owner, o => o.MapFrom(s => s.Customer));
+            .ForMember(d => d.Customer, o => o.MapFrom(s => s.Customer));
 
         // Service Order mappings
         CreateMap<ServiceOrder, ServiceOrderDto>()
@@ -44,7 +44,7 @@ public class MappingProfile : Profile
 
         // Inventory mappings
         CreateMap<Inventory, InventoryDto>()
-            .ForMember(d => d.Details, o => o.MapFrom(s => s.InventoryDetails));
+            .ForMember(d => d.InventoryDetails, o => o.MapFrom(s => s.InventoryDetails));
         CreateMap<InventoryDetail, InventoryDetailDto>();
         CreateMap<Spare, DTOs.Spares.SpareDto>();
 

@@ -5,17 +5,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+/// <summary>
+/// Controlador para gestionar las especializaciones de los técnicos del taller.
+/// Proporciona endpoints para crear, consultar, actualizar y eliminar especializaciones,
+/// así como para asignar y desasignar técnicos a las especializaciones.
+/// </summary>
 public class SpecializationsController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// Constructor del controlador de especializaciones
+    /// </summary>
+    /// <param name="unitOfWork">Instancia del patrón Unit of Work para acceso a datos</param>
+    /// <param name="mapper">Instancia de AutoMapper para mapeo de objetos</param>
     public SpecializationsController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Obtiene todas las especializaciones activas
+    /// </summary>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>Lista de especializaciones</returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Specialization>>> GetSpecializations(CancellationToken cancellationToken)
     {
@@ -23,6 +38,12 @@ public class SpecializationsController : BaseApiController
         return Ok(specializations);
     }
 
+    /// <summary>
+    /// Obtiene una especialización por su ID
+    /// </summary>
+    /// <param name="id">ID de la especialización</param>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>Especialización encontrada o NotFound si no existe</returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<Specialization>> GetSpecialization(int id, CancellationToken cancellationToken)
     {
@@ -32,6 +53,13 @@ public class SpecializationsController : BaseApiController
         return Ok(specialization);
     }
 
+    /// <summary>
+    /// Busca especializaciones por nombre y/o descripción
+    /// </summary>
+    /// <param name="name">Nombre o parte del nombre a buscar</param>
+    /// <param name="description">Descripción o parte de la descripción a buscar</param>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>Lista de especializaciones que coinciden con los criterios de búsqueda</returns>
     [HttpGet("search")]
     public async Task<ActionResult<IEnumerable<Specialization>>> SearchSpecializations(
         [FromQuery] string? name,
@@ -48,6 +76,12 @@ public class SpecializationsController : BaseApiController
         return Ok(specializations);
     }
 
+    /// <summary>
+    /// Obtiene todos los técnicos asignados a una especialización
+    /// </summary>
+    /// <param name="id">ID de la especialización</param>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>Lista de técnicos con la especialización especificada</returns>
     [HttpGet("{id}/technicians")]
     public async Task<ActionResult<IEnumerable<User>>> GetTechnicians(int id, CancellationToken cancellationToken)
     {
@@ -64,10 +98,17 @@ public class SpecializationsController : BaseApiController
         return Ok(users);
     }
 
+    /// <summary>
+    /// Crea una nueva especialización
+    /// </summary>
+    /// <param name="specialization">Datos de la especialización a crear</param>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>Especialización creada</returns>
+    /// <response code="201">Especialización creada exitosamente</response>
+    /// <response code="400">Ya existe una especialización con el mismo nombre</response>
     [HttpPost]
     public async Task<ActionResult<Specialization>> CreateSpecialization([FromBody] Specialization specialization, CancellationToken cancellationToken)
     {
-        // Validar si ya existe una especialización con el mismo nombre
         var existingSpecialization = await _unitOfWork.Repository<Specialization>()
             .FindAsync(s => s.Name == specialization.Name && !s.IsDeleted, cancellationToken);
 
@@ -80,6 +121,16 @@ public class SpecializationsController : BaseApiController
         return CreatedAtAction(nameof(GetSpecialization), new { id = specialization.Id }, specialization);
     }
 
+    /// <summary>
+    /// Actualiza una especialización existente
+    /// </summary>
+    /// <param name="id">ID de la especialización a actualizar</param>
+    /// <param name="specialization">Nuevos datos de la especialización</param>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>Especialización actualizada</returns>
+    /// <response code="200">Especialización actualizada exitosamente</response>
+    /// <response code="400">ID no coincide o nombre duplicado</response>
+    /// <response code="404">Especialización no encontrada</response>
     [HttpPut("{id}")]
     public async Task<ActionResult<Specialization>> UpdateSpecialization(int id, [FromBody] Specialization specialization, CancellationToken cancellationToken)
     {
@@ -90,7 +141,6 @@ public class SpecializationsController : BaseApiController
         if (existingSpecialization == null)
             return NotFound();
 
-        // Validar si el nuevo nombre ya está en uso por otra especialización
         if (existingSpecialization.Name != specialization.Name)
         {
             var duplicateSpecialization = await _unitOfWork.Repository<Specialization>()
@@ -106,13 +156,21 @@ public class SpecializationsController : BaseApiController
         return Ok(specialization);
     }
 
+    /// <summary>
+    /// Elimina una especialización (soft delete)
+    /// </summary>
+    /// <param name="id">ID de la especialización a eliminar</param>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>NoContent si se eliminó correctamente</returns>
+    /// <response code="204">Especialización eliminada exitosamente</response>
+    /// <response code="400">La especialización tiene técnicos asignados</response>
+    /// <response code="404">Especialización no encontrada</response>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteSpecialization(int id, CancellationToken cancellationToken)
     {
         var specialization = await _unitOfWork.Specializations.GetByIdAsync(id, cancellationToken);
         if (specialization == null) return NotFound();
 
-        // Verificar si la especialización está asignada a técnicos
         var hasTechnicians = await _unitOfWork.Repository<UserSpecialization>()
             .AnyAsync(us => us.SpecializationId == id && !us.IsDeleted, cancellationToken);
 
@@ -125,6 +183,16 @@ public class SpecializationsController : BaseApiController
         return NoContent();
     }
 
+    /// <summary>
+    /// Asigna un técnico a una especialización
+    /// </summary>
+    /// <param name="id">ID de la especialización</param>
+    /// <param name="userId">ID del técnico</param>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>NoContent si se asignó correctamente</returns>
+    /// <response code="204">Técnico asignado exitosamente</response>
+    /// <response code="400">El técnico ya tiene esta especialización</response>
+    /// <response code="404">Especialización o técnico no encontrado</response>
     [HttpPost("{id}/technicians/{userId}")]
     public async Task<IActionResult> AssignTechnician(int id, int userId, CancellationToken cancellationToken)
     {
@@ -134,7 +202,6 @@ public class SpecializationsController : BaseApiController
         var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
         if (user == null) return NotFound("Usuario no encontrado.");
 
-        // Verificar si ya existe la asignación
         var existingAssignment = await _unitOfWork.Repository<UserSpecialization>()
             .FindAsync(us => us.SpecializationId == id && us.UserId == userId && !us.IsDeleted, cancellationToken);
 
@@ -153,6 +220,15 @@ public class SpecializationsController : BaseApiController
         return NoContent();
     }
 
+    /// <summary>
+    /// Desasigna un técnico de una especialización
+    /// </summary>
+    /// <param name="id">ID de la especialización</param>
+    /// <param name="userId">ID del técnico</param>
+    /// <param name="cancellationToken">Token de cancelación</param>
+    /// <returns>NoContent si se desasignó correctamente</returns>
+    /// <response code="204">Técnico desasignado exitosamente</response>
+    /// <response code="404">Asignación no encontrada</response>
     [HttpDelete("{id}/technicians/{userId}")]
     public async Task<IActionResult> UnassignTechnician(int id, int userId, CancellationToken cancellationToken)
     {
