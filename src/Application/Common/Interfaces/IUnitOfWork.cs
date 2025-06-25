@@ -1,30 +1,28 @@
+using Domain.Entities;
+
 namespace Application.Common.Interfaces;
 
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork
 {
-    // Repositories
-    IRepository<Domain.Entities.User> Users { get; }
-    IRepository<Domain.Entities.Role> Roles { get; }
-    IRepository<Domain.Entities.Specialization> Specializations { get; }
-    IRepository<Domain.Entities.ServiceType> ServiceTypes { get; }
-    IRepository<Domain.Entities.ServiceOrder> ServiceOrders { get; }
-    IRepository<Domain.Entities.Spare> Spares { get; }
-    IRepository<Domain.Entities.Inventory> Inventories { get; }
-    IRepository<Domain.Entities.Invoice> Invoices { get; }
-    IRepository<Domain.Entities.Status> Statuses { get; }
-    IRepository<Domain.Entities.Vehicle> Vehicles { get; }
-    IRepository<Domain.Entities.Customer> Customers { get; }
-    IRepository<Domain.Entities.Diagnostic> Diagnostics { get; }
-    IRepository<Domain.Entities.DiagnosticDetail> DiagnosticDetails { get; }
-    IRepository<Domain.Entities.OrderDetail> OrderDetails { get; }
-    IRepository<Domain.Entities.InventoryDetail> InventoryDetails { get; }
-    IRepository<Domain.Entities.UserRole> UserRoles { get; }
-    IRepository<Domain.Entities.UserSpecialization> UserSpecializations { get; }
-    IRepository<Domain.Entities.Audit> Audits { get; }
+    IRepository<User> Users { get; }
+    IRepository<Role> Roles { get; }
+    IRepository<ServiceOrder> ServiceOrders { get; }
+    IRepository<Customer> Customers { get; }
+    IRepository<Vehicle> Vehicles { get; }
+    IRepository<Spare> Spares { get; }
+    IRepository<Inventory> Inventories { get; }
+    IRepository<Invoice> Invoices { get; }
+    IRepository<ServiceType> ServiceTypes { get; }
+    IRepository<Status> Statuses { get; }
+    IRepository<Specialization> Specializations { get; }
 
-    // Transaction management
+    // Extended repositories with custom operations
+    IUserRepository UsersExtended { get; }
+    IServiceOrderRepository ServiceOrdersExtended { get; }
+    IInventoryRepository InventoriesExtended { get; }
+
+    // Generic repository access
+    IRepository<T> Repository<T>() where T : BaseEntity;
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-    Task BeginTransactionAsync(CancellationToken cancellationToken = default);
-    Task CommitTransactionAsync(CancellationToken cancellationToken = default);
-    Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
 } 

@@ -1,9 +1,10 @@
+using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
 
-public class ServiceOrderRepository : BaseRepository<ServiceOrder>
+public class ServiceOrderRepository : BaseRepository<ServiceOrder>, IServiceOrderRepository
 {
     public ServiceOrderRepository(ApplicationDbContext context) : base(context)
     {
@@ -55,6 +56,28 @@ public class ServiceOrderRepository : BaseRepository<ServiceOrder>
                 .ThenInclude(v => v.Customer)
             .Include(so => so.Status)
             .Where(so => so.MechanicId == mechanicId && !so.IsDeleted)
+            .OrderByDescending(so => so.EntryDate)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<ServiceOrder>> GetByCustomerAsync(int customerId, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Include(so => so.Vehicle)
+                .ThenInclude(v => v.Customer)
+            .Include(so => so.Status)
+            .Where(so => so.Vehicle.CustomerId == customerId && !so.IsDeleted)
+            .OrderByDescending(so => so.EntryDate)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<ServiceOrder>> GetByVehicleAsync(int vehicleId, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Include(so => so.Vehicle)
+                .ThenInclude(v => v.Customer)
+            .Include(so => so.Status)
+            .Where(so => so.VehicleId == vehicleId && !so.IsDeleted)
             .OrderByDescending(so => so.EntryDate)
             .ToListAsync(cancellationToken);
     }
