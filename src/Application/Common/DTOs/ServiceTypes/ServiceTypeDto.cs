@@ -31,4 +31,24 @@ public class ServiceTypeDto
     /// Precio base del servicio, sin incluir repuestos
     /// </summary>
     public decimal BasePrice { get; set; }
+
+    /// <summary>
+    /// Fecha de creación del tipo de servicio
+    /// </summary>
+    public DateTime CreatedAt { get; set; }
+
+    /// <summary>
+    /// Usuario que creó el tipo de servicio
+    /// </summary>
+    public string CreatedBy { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Fecha de última actualización del tipo de servicio
+    /// </summary>
+    public DateTime? UpdatedAt { get; set; }
+
+    /// <summary>
+    /// Usuario que actualizó el tipo de servicio
+    /// </summary>
+    public string? UpdatedBy { get; set; }
 } 
