@@ -12,19 +12,49 @@ public class UpdateInvoiceDto
     public int Id { get; set; }
 
     /// <summary>
-    /// Nuevo estado de la factura (ej: Pagada, Anulada)
+    /// ID de la orden de servicio asociada a la factura
     /// </summary>
-    public string Status { get; set; } = string.Empty;
+    public int ServiceOrderId { get; set; }
+
+    /// <summary>
+    /// Número de la factura
+    /// </summary>
+    public string InvoiceNumber { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Fecha de emisión de la factura
+    /// </summary>
+    public DateTime IssueDate { get; set; }
 
     /// <summary>
     /// Nueva fecha de vencimiento para el pago
     /// </summary>
-    public DateTime? DueDate { get; set; }
+    public DateTime DueDate { get; set; }
 
     /// <summary>
-    /// Nuevo método de pago
+    /// Subtotal de la factura
     /// </summary>
-    public string? PaymentMethod { get; set; }
+    public decimal Subtotal { get; set; }
+
+    /// <summary>
+    /// Porcentaje de impuesto de la factura
+    /// </summary>
+    public decimal TaxRate { get; set; }
+
+    /// <summary>
+    /// Impuesto de la factura
+    /// </summary>
+    public decimal Tax { get; set; }
+
+    /// <summary>
+    /// Total de la factura
+    /// </summary>
+    public decimal Total { get; set; }
+
+    /// <summary>
+    /// Porcentaje de descuento aplicado a la factura
+    /// </summary>
+    public decimal DiscountRate { get; set; }
 
     /// <summary>
     /// Notas o comentarios actualizados
@@ -32,13 +62,12 @@ public class UpdateInvoiceDto
     public string? Notes { get; set; }
 
     /// <summary>
-    /// Fecha de pago efectivo
-    /// Se establece cuando la factura se marca como pagada
+    /// Estado de pago de la factura
     /// </summary>
-    public DateTime? PaymentDate { get; set; }
+    public string PaymentStatus { get; set; } = "Pending";
 
     /// <summary>
-    /// Referencia del pago (número de transacción, cheque, etc.)
+    /// Método de pago de la factura
     /// </summary>
-    public string? PaymentReference { get; set; }
+    public string PaymentMethod { get; set; } = string.Empty;
 } 

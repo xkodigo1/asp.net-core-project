@@ -117,9 +117,9 @@ public class InvoicesController : BaseApiController
         if (invoice == null) return NotFound();
 
         // Solo permitir actualizar notas y estado de pago
-        invoice.Notes = updateDto.Notes;
+        invoice.Notes = updateDto.Notes ?? invoice.Notes;
         invoice.PaymentStatus = updateDto.PaymentStatus;
-        invoice.PaymentMethod = updateDto.PaymentMethod;
+        invoice.PaymentMethod = updateDto.PaymentMethod ?? invoice.PaymentMethod;
 
         await _unitOfWork.Invoices.UpdateAsync(invoice, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

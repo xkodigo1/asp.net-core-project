@@ -23,12 +23,32 @@ public class CreateServiceOrderDto
     public int ServiceTypeId { get; set; }
 
     /// <summary>
+    /// ID del estado de la orden
+    /// </summary>
+    public int StatusId { get; set; }
+
+    /// <summary>
+    /// Fecha de entrada de la orden
+    /// </summary>
+    public DateTime EntryDate { get; set; }
+
+    /// <summary>
+    /// Fecha de salida de la orden
+    /// </summary>
+    public DateTime? ExitDate { get; set; }
+
+    /// <summary>
     /// Mensaje o comentarios del cliente sobre el servicio requerido
     /// </summary>
     public string? CustomerMessage { get; set; }
 
     /// <summary>
-    /// Lista de repuestos que se utilizarán en el servicio
+    /// Lista de detalles de diagnóstico en la orden
+    /// </summary>
+    public List<CreateDiagnosticDetailDto> DiagnosticDetails { get; set; } = new();
+
+    /// <summary>
+    /// Lista de detalles de repuestos en la orden
     /// </summary>
     public List<CreateOrderDetailDto> OrderDetails { get; set; } = new();
 }

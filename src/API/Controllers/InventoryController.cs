@@ -78,7 +78,7 @@ public class InventoryController : BaseApiController
             DocumentType = "ENTRADA",
             DocumentNumber = DateTime.Now.ToString("yyyyMMddHHmmss"),
             Date = DateTime.Now,
-            Notes = createDto.Notes
+            Notes = createDto.Notes ?? string.Empty
         };
 
         await _unitOfWork.Inventories.AddAsync(inventory, cancellationToken);
@@ -90,7 +90,7 @@ public class InventoryController : BaseApiController
             SpareId = createDto.SpareId,
             Quantity = createDto.Quantity,
             UnitCost = createDto.UnitCost,
-            BatchNumber = createDto.BatchNumber,
+            BatchNumber = createDto.BatchNumber ?? string.Empty,
             ExpirationDate = createDto.ExpirationDate,
             Location = createDto.Location
         };
@@ -130,7 +130,7 @@ public class InventoryController : BaseApiController
             DocumentType = "SALIDA",
             DocumentNumber = DateTime.Now.ToString("yyyyMMddHHmmss"),
             Date = DateTime.Now,
-            Notes = createDto.Notes
+            Notes = createDto.Notes ?? string.Empty
         };
 
         await _unitOfWork.Inventories.AddAsync(inventory, cancellationToken);
@@ -142,7 +142,7 @@ public class InventoryController : BaseApiController
             SpareId = createDto.SpareId,
             Quantity = -createDto.Quantity, // Cantidad negativa para salidas
             UnitCost = createDto.UnitCost,
-            BatchNumber = createDto.BatchNumber,
+            BatchNumber = createDto.BatchNumber ?? string.Empty,
             ExpirationDate = createDto.ExpirationDate,
             Location = createDto.Location
         };

@@ -67,6 +67,14 @@ public class CreateInventoryDto
     /// Notas adicionales sobre el repuesto
     /// </summary>
     public string? Notes { get; set; }
+
+    public int SpareId { get; set; }
+    public int Quantity { get; set; }
+    public string DocumentNumber { get; set; } = string.Empty;
+    public string DocumentType { get; set; } = string.Empty;
+    public DateTime Date { get; set; }
+    public string? BatchNumber { get; set; }
+    public DateTime? ExpirationDate { get; set; }
 }
 
 public class CreateInventoryDetailDto
