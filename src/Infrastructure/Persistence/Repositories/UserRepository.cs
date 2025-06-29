@@ -20,7 +20,7 @@ public class UserRepository : BaseRepository<User>, IUserRepository
             .FirstOrDefaultAsync(u => u.Email == email && !u.IsDeleted, cancellationToken);
     }
 
-    public async Task<IEnumerable<User>> GetByRoleAsync(int roleId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<User>> GetByRoleAsync(Guid roleId, CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .Include(u => u.UserRoles)
@@ -29,7 +29,7 @@ public class UserRepository : BaseRepository<User>, IUserRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<User>> GetBySpecializationAsync(int specializationId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<User>> GetBySpecializationAsync(Guid specializationId, CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .Include(u => u.UserSpecializations)
@@ -53,7 +53,7 @@ public class UserRepository : BaseRepository<User>, IUserRepository
             .ToListAsync(cancellationToken);
     }
 
-    public override async Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public override async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .Include(u => u.UserRoles)
