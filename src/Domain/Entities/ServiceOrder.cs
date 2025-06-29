@@ -68,10 +68,6 @@ public class ServiceOrder : BaseEntity
     /// </summary>
     public ICollection<OrderDetail> OrderDetails { get; private set; } = new List<OrderDetail>();
     /// <summary>
-    /// Lista de movimientos de inventario relacionados con la orden
-    /// </summary>
-    public ICollection<InventoryDetail> InventoryDetails { get; private set; } = new List<InventoryDetail>();
-    /// <summary>
     /// Factura asociada a la orden (puede ser null si aún no se ha facturado)
     /// </summary>
     public Invoice? Invoice { get; set; }
