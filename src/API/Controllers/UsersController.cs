@@ -116,10 +116,10 @@ public class UsersController : BaseApiController
 
         if (updateUserDto.RoleIds?.Any() == true)
         {
-            foreach (var roleId in updateUserDto.RoleIds)
-            {
-                var userRole = new UserRole { UserId = id, RoleId = roleId };
-                await _unitOfWork.Repository<UserRole>().AddAsync(userRole, cancellationToken);
+        foreach (var roleId in updateUserDto.RoleIds)
+        {
+            var userRole = new UserRole { UserId = id, RoleId = roleId };
+            await _unitOfWork.Repository<UserRole>().AddAsync(userRole, cancellationToken);
             }
         }
 
@@ -134,10 +134,10 @@ public class UsersController : BaseApiController
 
         if (updateUserDto.SpecializationIds?.Any() == true)
         {
-            foreach (var specializationId in updateUserDto.SpecializationIds)
-            {
-                var userSpecialization = new UserSpecialization { UserId = id, SpecializationId = specializationId };
-                await _unitOfWork.Repository<UserSpecialization>().AddAsync(userSpecialization, cancellationToken);
+        foreach (var specializationId in updateUserDto.SpecializationIds)
+        {
+            var userSpecialization = new UserSpecialization { UserId = id, SpecializationId = specializationId };
+            await _unitOfWork.Repository<UserSpecialization>().AddAsync(userSpecialization, cancellationToken);
             }
         }
 
