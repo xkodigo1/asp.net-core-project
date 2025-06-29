@@ -7,6 +7,11 @@ namespace Application.Common.DTOs.Spares;
 public class UpdateSpareDto
 {
     /// <summary>
+    /// Identificador del repuesto
+    /// </summary>
+    public int Id { get; set; }
+
+    /// <summary>
     /// Nombre del repuesto
     /// </summary>
     public string Name { get; set; } = string.Empty;
@@ -32,9 +37,14 @@ public class UpdateSpareDto
     public string? SerialNumber { get; set; }
 
     /// <summary>
-    /// Precio de venta del repuesto
+    /// Precio unitario del repuesto
     /// </summary>
-    public decimal Price { get; set; }
+    public decimal UnitPrice { get; set; }
+
+    /// <summary>
+    /// Cantidad actual en inventario
+    /// </summary>
+    public int StockQuantity { get; set; }
 
     /// <summary>
     /// Cantidad mínima requerida en inventario

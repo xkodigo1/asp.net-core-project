@@ -32,14 +32,14 @@ public class CreateSpareDto
     public string? SerialNumber { get; set; }
 
     /// <summary>
-    /// Precio de venta del repuesto
+    /// Precio unitario del repuesto
     /// </summary>
-    public decimal Price { get; set; }
+    public decimal UnitPrice { get; set; }
 
     /// <summary>
     /// Stock inicial del repuesto
     /// </summary>
-    public int Stock { get; set; }
+    public int StockQuantity { get; set; }
 
     /// <summary>
     /// Cantidad mínima requerida en inventario

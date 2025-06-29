@@ -95,15 +95,15 @@ public class UsersController : BaseApiController
         var user = await _unitOfWork.Users.GetByIdAsync(id, cancellationToken);
         if (user == null) return NotFound();
 
-        user.Username = updateUserDto.Username;
-        user.FirstName = updateUserDto.FirstName;
-        user.LastName = updateUserDto.LastName;
-        user.Email = updateUserDto.Email;
+        user.Username = updateUserDto.Username ?? user.Username;
+        user.FirstName = updateUserDto.FirstName ?? user.FirstName;
+        user.LastName = updateUserDto.LastName ?? user.LastName;
+        user.Email = updateUserDto.Email ?? user.Email;
         if (!string.IsNullOrEmpty(updateUserDto.Password))
         {
             user.Password = updateUserDto.Password; // TODO: Add password hashing
         }
-        user.Phone = updateUserDto.Phone;
+        user.Phone = updateUserDto.Phone ?? user.Phone;
 
         // Update roles
         var existingRoles = await _unitOfWork.Repository<UserRole>()
@@ -114,10 +114,13 @@ public class UsersController : BaseApiController
             await _unitOfWork.Repository<UserRole>().DeleteAsync(role, cancellationToken);
         }
 
-        foreach (var roleId in updateUserDto.RoleIds)
+        if (updateUserDto.RoleIds?.Any() == true)
         {
-            var userRole = new UserRole { UserId = id, RoleId = roleId };
-            await _unitOfWork.Repository<UserRole>().AddAsync(userRole, cancellationToken);
+            foreach (var roleId in updateUserDto.RoleIds)
+            {
+                var userRole = new UserRole { UserId = id, RoleId = roleId };
+                await _unitOfWork.Repository<UserRole>().AddAsync(userRole, cancellationToken);
+            }
         }
 
         // Update specializations
@@ -129,10 +132,13 @@ public class UsersController : BaseApiController
             await _unitOfWork.Repository<UserSpecialization>().DeleteAsync(specialization, cancellationToken);
         }
 
-        foreach (var specializationId in updateUserDto.SpecializationIds)
+        if (updateUserDto.SpecializationIds?.Any() == true)
         {
-            var userSpecialization = new UserSpecialization { UserId = id, SpecializationId = specializationId };
-            await _unitOfWork.Repository<UserSpecialization>().AddAsync(userSpecialization, cancellationToken);
+            foreach (var specializationId in updateUserDto.SpecializationIds)
+            {
+                var userSpecialization = new UserSpecialization { UserId = id, SpecializationId = specializationId };
+                await _unitOfWork.Repository<UserSpecialization>().AddAsync(userSpecialization, cancellationToken);
+            }
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

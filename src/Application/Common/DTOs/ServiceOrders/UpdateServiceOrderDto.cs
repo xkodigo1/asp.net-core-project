@@ -7,6 +7,16 @@ namespace Application.Common.DTOs.ServiceOrders;
 public class UpdateServiceOrderDto
 {
     /// <summary>
+    /// ID de la orden de servicio
+    /// </summary>
+    public int Id { get; set; }
+
+    /// <summary>
+    /// ID del vehículo asociado a la orden
+    /// </summary>
+    public int VehicleId { get; set; }
+
+    /// <summary>
     /// ID del mecánico asignado a la orden
     /// </summary>
     public int MechanicId { get; set; }
@@ -20,6 +30,11 @@ public class UpdateServiceOrderDto
     /// ID del estado de la orden
     /// </summary>
     public int StatusId { get; set; }
+
+    /// <summary>
+    /// Fecha y hora de entrada del vehículo
+    /// </summary>
+    public DateTime EntryDate { get; set; }
 
     /// <summary>
     /// Fecha y hora de salida del vehículo

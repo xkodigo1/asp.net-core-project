@@ -58,13 +58,13 @@ public class UpdateUserDto
     /// Nueva lista de IDs de roles (opcional)
     /// Si se proporciona, reemplazará completamente la lista actual de roles
     /// </summary>
-    public List<int>? RoleIds { get; set; }
+    public List<int> RoleIds { get; set; } = new();
 
     /// <summary>
     /// Nueva lista de IDs de especializaciones (opcional)
     /// Si se proporciona, reemplazará completamente la lista actual de especializaciones
     /// </summary>
-    public List<int>? SpecializationIds { get; set; }
+    public List<int> SpecializationIds { get; set; } = new();
 
     /// <summary>
     /// Indica si el usuario debe estar activo o inactivo
