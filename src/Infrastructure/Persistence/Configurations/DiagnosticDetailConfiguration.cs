@@ -27,15 +27,15 @@ public class DiagnosticDetailConfiguration : IEntityTypeConfiguration<Diagnostic
             .IsRequired();
 
         // Relaciones
-        builder.HasOne<Diagnostic>()
+        builder.HasOne(dd => dd.Diagnostic)
             .WithMany(d => d.DiagnosticDetails)
-            .HasForeignKey("DiagnosticId")
+            .HasForeignKey(dd => dd.DiagnosticId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne<ServiceOrder>()
+        builder.HasOne(dd => dd.ServiceOrder)
             .WithMany(so => so.DiagnosticDetails)
-            .HasForeignKey("ServiceOrderId")
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(dd => dd.ServiceOrderId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasQueryFilter(dd => !dd.IsDeleted);
     }

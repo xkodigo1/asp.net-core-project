@@ -14,12 +14,12 @@ public class UserSpecializationConfiguration : IEntityTypeConfiguration<UserSpec
 
         // Relaciones
         builder.HasOne(us => us.User)
-            .WithMany()
+            .WithMany(u => u.UserSpecializations)
             .HasForeignKey(us => us.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(us => us.Specialization)
-            .WithMany()
+            .WithMany(s => s.UserSpecializations)
             .HasForeignKey(us => us.SpecializationId)
             .OnDelete(DeleteBehavior.Restrict);
 

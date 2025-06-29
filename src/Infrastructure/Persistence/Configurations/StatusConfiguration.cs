@@ -20,7 +20,7 @@ public class StatusConfiguration : IEntityTypeConfiguration<Status>
             .HasMaxLength(200);
 
         // Relaciones
-        builder.HasMany<ServiceOrder>()
+        builder.HasMany(s => s.ServiceOrders)
             .WithOne(so => so.Status)
             .HasForeignKey(so => so.StatusId)
             .OnDelete(DeleteBehavior.Restrict);

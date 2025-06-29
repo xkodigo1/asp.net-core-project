@@ -25,38 +25,33 @@ public class ServiceOrderConfiguration : IEntityTypeConfiguration<ServiceOrder>
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(so => so.Mechanic)
-            .WithMany()
+            .WithMany(m => m.ServiceOrders)
             .HasForeignKey(so => so.MechanicId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(so => so.ServiceType)
-            .WithMany()
+            .WithMany(st => st.ServiceOrders)
             .HasForeignKey(so => so.ServiceTypeId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(so => so.Status)
-            .WithMany()
+            .WithMany(s => s.ServiceOrders)
             .HasForeignKey(so => so.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(so => so.DiagnosticDetails)
-            .WithOne()
-            .HasForeignKey("ServiceOrderId")
+            .WithOne(dd => dd.ServiceOrder)
+            .HasForeignKey(dd => dd.ServiceOrderId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(so => so.OrderDetails)
-            .WithOne()
-            .HasForeignKey("ServiceOrderId")
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(so => so.InventoryDetails)
-            .WithOne()
-            .HasForeignKey("ServiceOrderId")
+            .WithOne(od => od.ServiceOrder)
+            .HasForeignKey(od => od.ServiceOrderId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(so => so.Invoice)
-            .WithOne()
-            .HasForeignKey<Invoice>("ServiceOrderId")
+            .WithOne(i => i.ServiceOrder)
+            .HasForeignKey<Invoice>(i => i.ServiceOrderId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(so => !so.IsDeleted);

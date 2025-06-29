@@ -22,7 +22,6 @@ public class ServiceOrderRepository : BaseRepository<ServiceOrder>, IServiceOrde
                 .ThenInclude(dd => dd.Diagnostic)
             .Include(so => so.OrderDetails)
                 .ThenInclude(od => od.Spare)
-            .Include(so => so.InventoryDetails)
             .Include(so => so.Invoice)
             .FirstOrDefaultAsync(so => so.Id == id && !so.IsDeleted, cancellationToken);
     }
