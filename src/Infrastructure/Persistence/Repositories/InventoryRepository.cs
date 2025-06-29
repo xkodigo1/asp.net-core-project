@@ -18,7 +18,7 @@ public class InventoryRepository : BaseRepository<Inventory>, IInventoryReposito
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Inventory?> GetByIdWithDetailsAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Inventory?> GetByIdWithDetailsAsync(int id, CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .Include(i => i.InventoryDetails)
@@ -36,7 +36,7 @@ public class InventoryRepository : BaseRepository<Inventory>, IInventoryReposito
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> HasSufficientStockAsync(Guid spareId, int requiredQuantity, CancellationToken cancellationToken = default)
+    public async Task<bool> HasSufficientStockAsync(int spareId, int requiredQuantity, CancellationToken cancellationToken = default)
     {
         var spare = await _context.Set<Spare>()
             .FirstOrDefaultAsync(s => s.Id == spareId && !s.IsDeleted, cancellationToken);
@@ -44,7 +44,7 @@ public class InventoryRepository : BaseRepository<Inventory>, IInventoryReposito
         return spare != null && spare.StockQuantity >= requiredQuantity;
     }
 
-    public async Task UpdateStockAsync(Guid spareId, int quantity, string documentType, CancellationToken cancellationToken = default)
+    public async Task UpdateStockAsync(int spareId, int quantity, string documentType, CancellationToken cancellationToken = default)
     {
         var spare = await _context.Set<Spare>()
             .FirstOrDefaultAsync(s => s.Id == spareId && !s.IsDeleted, cancellationToken);
