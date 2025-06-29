@@ -2,8 +2,8 @@ namespace Domain.Entities;
 
 public class DiagnosticDetail : BaseEntity
 {
-    public Guid ServiceOrderId { get; set; }
-    public Guid DiagnosticId { get; set; }
+    public int ServiceOrderId { get; set; }
+    public int DiagnosticId { get; set; }
     public string Description { get; set; } = string.Empty;
     public string? Observation { get; set; }
     public decimal EstimatedCost { get; set; }

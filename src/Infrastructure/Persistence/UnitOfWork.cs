@@ -61,9 +61,15 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Audit> Audits => _audits ??= new BaseRepository<Audit>(_context);
 
     // Helper methods to access specific repository functionality
-    public UserRepository UsersExtended => (UserRepository)Users;
-    public ServiceOrderRepository ServiceOrdersExtended => (ServiceOrderRepository)ServiceOrders;
-    public InventoryRepository InventoriesExtended => (InventoryRepository)Inventories;
+    public IUserRepository UsersExtended => (UserRepository)Users;
+    public IServiceOrderRepository ServiceOrdersExtended => (ServiceOrderRepository)ServiceOrders;
+    public IInventoryRepository InventoriesExtended => (InventoryRepository)Inventories;
+
+    // Generic repository access
+    public IRepository<T> Repository<T>() where T : BaseEntity
+    {
+        return new BaseRepository<T>(_context);
+    }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
