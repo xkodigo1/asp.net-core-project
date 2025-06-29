@@ -35,14 +35,14 @@ public class SpareConfiguration : IEntityTypeConfiguration<Spare>
             .IsRequired();
 
         // Relaciones
-        builder.HasMany<OrderDetail>()
-            .WithOne()
-            .HasForeignKey("SpareId")
+        builder.HasMany(s => s.OrderDetails)
+            .WithOne(od => od.Spare)
+            .HasForeignKey(od => od.SpareId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany<InventoryDetail>()
-            .WithOne()
-            .HasForeignKey("SpareId")
+        builder.HasMany(s => s.InventoryDetails)
+            .WithOne(id => id.Spare)
+            .HasForeignKey(id => id.SpareId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(s => !s.IsDeleted);

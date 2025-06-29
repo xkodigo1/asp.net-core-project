@@ -27,14 +27,14 @@ public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
             .IsRequired();
 
         // Relaciones
-        builder.HasOne<ServiceOrder>()
+        builder.HasOne(od => od.ServiceOrder)
             .WithMany(so => so.OrderDetails)
-            .HasForeignKey("ServiceOrderId")
+            .HasForeignKey(od => od.ServiceOrderId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne<Spare>()
-            .WithMany()
-            .HasForeignKey("SpareId")
+        builder.HasOne(od => od.Spare)
+            .WithMany(s => s.OrderDetails)
+            .HasForeignKey(od => od.SpareId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(od => !od.IsDeleted);

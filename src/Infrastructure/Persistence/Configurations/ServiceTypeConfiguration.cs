@@ -27,7 +27,7 @@ public class ServiceTypeConfiguration : IEntityTypeConfiguration<ServiceType>
             .IsRequired();
 
         // Relaciones
-        builder.HasMany<ServiceOrder>()
+        builder.HasMany(st => st.ServiceOrders)
             .WithOne(so => so.ServiceType)
             .HasForeignKey(so => so.ServiceTypeId)
             .OnDelete(DeleteBehavior.Restrict);

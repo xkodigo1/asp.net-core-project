@@ -24,20 +24,15 @@ public class InventoryDetailConfiguration : IEntityTypeConfiguration<InventoryDe
             .IsRequired();
 
         // Relaciones
-        builder.HasOne<Inventory>()
+        builder.HasOne(id => id.Inventory)
             .WithMany(i => i.InventoryDetails)
-            .HasForeignKey("InventoryId")
+            .HasForeignKey(id => id.InventoryId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne<Spare>()
-            .WithMany()
-            .HasForeignKey("SpareId")
+        builder.HasOne(id => id.Spare)
+            .WithMany(s => s.InventoryDetails)
+            .HasForeignKey(id => id.SpareId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne<ServiceOrder>()
-            .WithMany(so => so.InventoryDetails)
-            .HasForeignKey("ServiceOrderId")
-            .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasQueryFilter(id => !id.IsDeleted);
     }
