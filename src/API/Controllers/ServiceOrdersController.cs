@@ -91,7 +91,7 @@ public class ServiceOrdersController : BaseApiController
         {
             var diagnosticDetail = new DiagnosticDetail
             {
-                ServiceOrderId = serviceOrder.Id,
+                ServiceOrderId = (int)serviceOrder.Id,
                 Description = detail.Description,
                 Observation = detail.Observation,
                 EstimatedCost = detail.EstimatedCost,
@@ -105,7 +105,7 @@ public class ServiceOrdersController : BaseApiController
         {
             var orderDetail = new OrderDetail
             {
-                ServiceOrderId = serviceOrder.Id,
+                ServiceOrderId = (int)serviceOrder.Id,
                 SpareId = detail.SpareId,
                 Quantity = detail.Quantity,
                 UnitPrice = detail.UnitPrice,
