@@ -9,24 +9,25 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Specialization> Specializations { get; set; }
     public DbSet<UserSpecialization> UserSpecializations { get; set; }
     public DbSet<Customer> Customers { get; set; }
-    public DbSet<Vehicle> Vehicles { get; set; }
-    public DbSet<ServiceType> ServiceTypes { get; set; }
+    public DbSet<Vehicle> Vehicles => Set<Vehicle>();
+    public DbSet<ServiceType> ServiceTypes => Set<ServiceType>();
     public DbSet<Status> Statuses { get; set; }
     public DbSet<ServiceOrder> ServiceOrders { get; set; }
     public DbSet<Diagnostic> Diagnostics { get; set; }
     public DbSet<DiagnosticDetail> DiagnosticDetails { get; set; }
-    public DbSet<Spare> Spares { get; set; }
+    public DbSet<Spare> Spares => Set<Spare>();
     public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Inventory> Inventories { get; set; }
     public DbSet<InventoryDetail> InventoryDetails { get; set; }
     public DbSet<Audit> Audits { get; set; }
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,7 +1,9 @@
 using Application.Common.DTOs.Customers;
 using Application.Common.DTOs.Inventory;
 using Application.Common.DTOs.Invoices;
+using Application.Common.DTOs.ServiceTypes;
 using Application.Common.DTOs.Spares;
+using Application.Common.DTOs.Status;
 using Application.Common.DTOs.Users;
 using Application.Common.DTOs.Vehicles;
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using Application.Common.Interfaces;
 using Infrastructure.Persistence;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
@@ -15,11 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMemoryCache();
+builder.Services.AddControllers();
+builder.Services.AddAuthorization();
+
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
 builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
+// Add PasswordHasher service
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 // Database configuration
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -42,7 +49,7 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder
-                .WithOrigins("http://localhost:3000", "http://localhost:5173") // Puertos comunes de desarrollo React
+                .WithOrigins("http://localhost:3000", "http://localhost:5173")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();
@@ -102,6 +109,9 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
+
+    // Configurar Swagger para usar los nombres completos de los tipos
+    c.CustomSchemaIds(type => type.FullName?.Replace("+", "."));
 });
 
 var app = builder.Build();
@@ -109,17 +119,31 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(c =>
+    {
+        c.RouteTemplate = "swagger/{documentName}/swagger.json";
+    });
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "AutoTallerManager API v1");
+        c.RoutePrefix = "swagger";
+    });
 }
 
 app.UseCors("AllowReactApp");
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseIpRateLimiting();
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+// Redirect root to Swagger
+app.MapGet("/", () => Results.Redirect("/swagger"));
+
+// Log application startup
+Console.WriteLine($"Application starting at {DateTime.Now}");
+Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
+Console.WriteLine($"Swagger URL: http://localhost:5000/swagger");
 
 app.Run();
 

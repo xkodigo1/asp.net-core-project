@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/servicetypes")]
 public class ServiceTypeController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;

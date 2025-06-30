@@ -10,11 +10,13 @@ public class UsersController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public UsersController(IUnitOfWork unitOfWork, IMapper mapper)
+    public UsersController(IUnitOfWork unitOfWork, IMapper mapper, IPasswordHasher passwordHasher)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _passwordHasher = passwordHasher;
     }
 
     [HttpGet]
@@ -62,7 +64,7 @@ public class UsersController : BaseApiController
             FirstName = createUserDto.FirstName,
             LastName = createUserDto.LastName,
             Email = createUserDto.Email,
-            Password = createUserDto.Password, // TODO: Add password hashing
+            Password = _passwordHasher.HashPassword(createUserDto.Password),
             Phone = createUserDto.Phone
         };
 
@@ -101,7 +103,7 @@ public class UsersController : BaseApiController
         user.Email = updateUserDto.Email ?? user.Email;
         if (!string.IsNullOrEmpty(updateUserDto.Password))
         {
-            user.Password = updateUserDto.Password; // TODO: Add password hashing
+            user.Password = _passwordHasher.HashPassword(updateUserDto.Password);
         }
         user.Phone = updateUserDto.Phone ?? user.Phone;
 
@@ -116,10 +118,10 @@ public class UsersController : BaseApiController
 
         if (updateUserDto.RoleIds?.Any() == true)
         {
-        foreach (var roleId in updateUserDto.RoleIds)
-        {
-            var userRole = new UserRole { UserId = id, RoleId = roleId };
-            await _unitOfWork.Repository<UserRole>().AddAsync(userRole, cancellationToken);
+            foreach (var roleId in updateUserDto.RoleIds)
+            {
+                var userRole = new UserRole { UserId = id, RoleId = roleId };
+                await _unitOfWork.Repository<UserRole>().AddAsync(userRole, cancellationToken);
             }
         }
 
@@ -134,10 +136,10 @@ public class UsersController : BaseApiController
 
         if (updateUserDto.SpecializationIds?.Any() == true)
         {
-        foreach (var specializationId in updateUserDto.SpecializationIds)
-        {
-            var userSpecialization = new UserSpecialization { UserId = id, SpecializationId = specializationId };
-            await _unitOfWork.Repository<UserSpecialization>().AddAsync(userSpecialization, cancellationToken);
+            foreach (var specializationId in updateUserDto.SpecializationIds)
+            {
+                var userSpecialization = new UserSpecialization { UserId = id, SpecializationId = specializationId };
+                await _unitOfWork.Repository<UserSpecialization>().AddAsync(userSpecialization, cancellationToken);
             }
         }
 

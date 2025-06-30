@@ -15,4 +15,5 @@ public class User : BaseEntity
     public ICollection<ServiceOrder> ServiceOrders { get; private set; } = new List<ServiceOrder>();
     public ICollection<Diagnostic> Diagnostics { get; private set; } = new List<Diagnostic>();
     public ICollection<Audit> Audits { get; private set; } = new List<Audit>();
+    public ICollection<RefreshToken> RefreshTokens { get; private set; } = new List<RefreshToken>();
 } 

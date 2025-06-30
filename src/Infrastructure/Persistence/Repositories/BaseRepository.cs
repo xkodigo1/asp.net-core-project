@@ -31,6 +31,11 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         return await _dbSet.Where(predicate).ToListAsync(cancellationToken);
     }
 
+    public virtual async Task<T?> FindOneAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
+    }
+
     public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
     {
         return await _dbSet.AnyAsync(predicate, cancellationToken);
